@@ -1,3 +1,4 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 <div class="row">
   <div class="col-12 grid-margin stretch-card">
     <div class="card">
@@ -5,52 +6,46 @@
         <h4 class="card-title">Gestion des Réclamations</h4>
         <p class="card-description">Formulaire de gestion des réclamations</p>
         
-        <form class="forms-sample" id="complaintForm">
-          <!-- Champ ID (peut être caché pour création) -->
-          <div class="form-group">
-            <label for="complaintId">ID Réclamation</label>
-            <input type="text" class="form-control" id="complaintId" placeholder="ID auto-généré" readonly>
-          </div>
+        <form class="forms-sample" id="complaintForm" name="f" method="post" action="Controller\ReclamationC.php">
           
           <!-- Champ Utilisateur -->
           <div class="form-group">
             <label for="userId">ID Utilisateur</label>
-            <input type="text" class="form-control" id="userId" placeholder="ID de l'utilisateur">
+            <input type="text" class="form-control" name="utilisateur_id" id="userId" placeholder="ID de l'utilisateur">
           </div>
           
           <!-- Sujet -->
           <div class="form-group">
             <label for="subject">Sujet</label>
-            <input type="text" class="form-control" id="subject" placeholder="Sujet de la réclamation">
+            <input type="text" class="form-control" name="sujet" id="subject" placeholder="Sujet de la réclamation">
           </div>
           
           <!-- Description -->
           <div class="form-group">
             <label for="description">Description</label>
-            <textarea class="form-control" id="description" rows="4" placeholder="Description détaillée"></textarea>
+            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Description détaillée"></textarea>
           </div>
           
           <!-- Statut -->
           <div class="form-group">
             <label for="status">Statut</label>
-            <select class="form-control" id="status">
+            <select class="form-control" id="status" name="statut">
               <option value="ouvert">Ouvert</option>
-              <option value="en_cours">En cours</option>
-              <option value="resolu">Résolu</option>
-              <option value="ferme">Fermé</option>
+              <option value="en cours">En cours</option>
+              <option value="fermer">Fermé</option>
             </select>
           </div>
           
           <!-- Date de création -->
           <div class="form-group">
             <label for="creationDate">Date de création</label>
-            <input type="datetime-local" class="form-control" id="creationDate">
+            <input type="datetime-local" class="form-control" id="creationDate" name="date_creation">
           </div>
           
           <!-- Date de fermeture -->
           <div class="form-group">
             <label for="closureDate">Date de fermeture</label>
-            <input type="datetime-local" class="form-control" id="closureDate">
+            <input type="datetime-local" class="form-control" id="closureDate" name="date_fermeture">
           </div>
           
           <button type="submit" class="btn btn-primary mr-2">Enregistrer</button>
