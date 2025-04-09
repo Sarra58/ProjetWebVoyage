@@ -64,6 +64,10 @@ try {
 <body>
     <div class="container mt-4">
         <h2 class="header">Liste Des Réclamations</h2>
+        <div class="mb-3">
+            <a href="\projetWebMinyar\View\back-office\purple-free\src\index.html" class="btn btn-primary">Retour à l'accueil</a>
+        </div>
+
         
         <div class="table-container">
             <table class="table table-hover">
@@ -91,9 +95,10 @@ try {
                                 <td><?= htmlspecialchars($reclamation['date_creation']) ?></td>
                                 <td><?= htmlspecialchars($reclamation['date_fermeture']) ?></td>
                                 <td class="action-btns">
-                                    <!-- Delete button now linked to delete.php with the corresponding ID -->
+                                    
                                     <a href="supprimer.php?id=<?= $reclamation['id'] ?>" class="btn btn-danger btn-sm">Supprimer</a>
                                     <a href="modifier.php?id=<?= $reclamation['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
+                                    <a href="reponse.php?id=<?= $reclamation['id'] ?>" class="btn btn-success btn-sm">Reponse</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -1,8 +1,8 @@
 <?php
 
 
-    include __DIR__ . '/../config.php';
-    include __DIR__ . '/../Model/Reclamation.php';
+    include __DIR__ . 'config.php';
+    include __DIR__ . 'Model\Reclamation.php';
 
     // === CONFIGURATION DE LA BASE DE DONNÉES ===
     class Config {
@@ -78,7 +78,7 @@
                     'date_fermeture' => $reclamation->getDateFermeture()
                 ]);
 
-                echo "✅ Réclamation ajoutée avec succès.";
+                header("Location: http://localhost/projetWebMinyar/View/front-office/ajout_succees.html");
             } catch (Exception $e) {
                 die('❌ Erreur : ' . $e->getMessage());
             }
@@ -191,6 +191,6 @@
 //     }
 //}
 
-}
+
 
 ?>

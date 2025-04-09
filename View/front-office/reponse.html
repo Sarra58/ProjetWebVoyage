@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<title>Contact</title>
+<title>Réponse</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Projet Travelix">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="styles/contact_styles.css">
-<link rel="stylesheet" type="text/css" href="styles/contact_responsive.css">
+<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="styles/blog_styles.css">
+<link rel="stylesheet" type="text/css" href="styles/blog_responsive.css">
 </head>
 
 <body>
@@ -60,9 +61,9 @@
 								<li class="main_nav_item"><a href="index.html">accueil</a></li>
 								<li class="main_nav_item"><a href="about.html">à propos</a></li>
 								<li class="main_nav_item"><a href="offers.html">offres</a></li>
-								<li class="main_nav_item"><a href="reclamations.html">Réclamation</a></li>
-								<li class="main_nav_item"><a href="reponse.html">Reponse</a></li>
-								<li class="main_nav_item"><a href="#">contact</a></li>
+								<li class="main_nav_item"><a href="reclamations.html">reclamations</a></li>
+                                <li class="main_nav_item"><a href="reponse.html">Reponse</a></li>
+								<li class="main_nav_item"><a href="contact.html">contact</a></li>
 							</ul>
 						</div>
 						<div class="content_search ml-lg-0 ml-auto">
@@ -89,13 +90,7 @@
 							</svg>
 						</div>
 
-						<form id="search_form" class="search_form bez_1">
-							<input type="search" class="search_content_input bez_1">
-						</form>
-
-						<div class="hamburger">
-							<i class="fa fa-bars trans_200"></i>
-						</div>
+						5
 					</div>
 				</div>
 			</div>
@@ -106,13 +101,13 @@
 	<div class="menu trans_500">
 		<div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
 			<div class="menu_close_container"><div class="menu_close"></div></div>
-			<div class="logo"><a href="#"><img src="images/logotripster.png" alt="Logo Tripster" height="125px" width="125px"></a></div>
+			<div class="logo menu_logo"><a href="#"><img src="images/logotripster.png" alt="Logo Tripster" height="125px" width="125px"></a></div>
 			<ul>
 				<li class="menu_item"><a href="index.html">accueil</a></li>
 				<li class="menu_item"><a href="about.html">à propos</a></li>
 				<li class="menu_item"><a href="offers.html">offres</a></li>
-				<li class="menu_item"><a href="blog.html">actualités</a></li>
-				<li class="menu_item"><a href="#">contact</a></li>
+				<li class="menu_item"><a href="#">actualités</a></li>
+				<li class="menu_item"><a href="contact.html">contact</a></li>
 			</ul>
 		</div>
 	</div>
@@ -120,105 +115,54 @@
 	<!-- Home -->
 
 	<div class="home">
-		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/contact_background.jpg"></div>
+		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/blog_background.jpg"></div>
 		<div class="home_content">
-			<div class="home_title">contact</div>
+			<div class="home_title">Réponse</div>
 		</div>
 	</div>
 
-	<!-- Contact -->
+	<!-- Blog -->
 
-	<div class="contact_form_section">
-		<div class="container">
-			<div class="row">
-				<div class="col">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-					<!-- Contact Form -->
-					<div class="contact_form_container">
-						<div class="contact_title text-center">contactez-nous</div>
-						<form action="#" id="contact_form" class="contact_form text-center">
-							<input type="text" id="contact_form_name" class="contact_form_name input_field" placeholder="Nom" required="required" data-error="Le nom est requis.">
-							<input type="text" id="contact_form_email" class="contact_form_email input_field" placeholder="E-mail" required="required" data-error="L'e-mail est requis.">
-							<input type="text" id="contact_form_subject" class="contact_form_subject input_field" placeholder="Sujet" required="required" data-error="Le sujet est requis.">
-							<textarea id="contact_form_message" class="text_field contact_form_message" name="message" rows="4" placeholder="Message" required="required" data-error="Veuillez nous écrire un message."></textarea>
-							<button type="submit" id="form_submit_button" class="form_submit_button button trans_200">envoyer le message<span></span><span></span><span></span></button>
-						</form>
-					</div>
+<div class="container mt-5">
+	<div class="row justify-content-center">
+		<div class="col-lg-8">
 
+			<div class="card shadow">
+				<div class="card-header text-white" style="background-color: #382260;">
 				</div>
-			</div>
-		</div>
-	</div>
+				
 
-	<!-- About -->
-	<div class="about">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-5">
+				<div class="card-body">
+					<form action="..\..\Controller\ReponseC.php" method="post">
 
-					<!-- About - Image -->
-
-					<div class="about_image">
-						<img src="images/man.png" alt="Illustration homme avec globe">
-					</div>
-
-				</div>
-
-				<div class="col-lg-4">
-
-					<!-- About - Content -->
-
-					<div class="about_content">
-						<div class="logo_container about_logo">
-							<div class="logo"><a href="#"><img src="images/logotripster.png" alt="Logo Tripster" height="125px" width="125px"></a></div>
+						<div class="mb-3">
+							<label for="utilisateur_id" class="form-label">Utilisateur ID</label>
+							<input type="text" class="form-control" id="utilisateur_id" name="utilisateur_id" required>
 						</div>
-						<p class="about_text">Tripster est votre partenaire de confiance pour des voyages inoubliables. Notre équipe passionnée s'engage à créer des expériences uniques, alliant confort, authenticité et découverte. Nous sélectionnons avec soin nos destinations et partenaires pour vous offrir le meilleur du voyage.</p>
-						<ul class="about_social_list">
-							<li class="about_social_item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
-							<li class="about_social_item"><a href="#"><i class="fa fa-facebook-f"></i></a></li>
-							<li class="about_social_item"><a href="#"><i class="fa fa-twitter"></i></a></li>
-							<li class="about_social_item"><a href="#"><i class="fa fa-dribbble"></i></a></li>
-							<li class="about_social_item"><a href="#"><i class="fa fa-behance"></i></a></li>
-						</ul>
-					</div>
 
+                        
+						<div class="text-end">
+							<button type="submit" class="btn text-white" style="background-color: #382260;">Envoyer</button>
+							<button type="reset" class="btn text-white" style="background-color: #382260;">Annuler</button>
+						</div>
+						
+
+					</form>
 				</div>
-
-				<div class="col-lg-3">
-
-					<!-- About Info -->
-
-					<div class="about_info">
-						<ul class="contact_info_list">
-							<li class="contact_info_item d-flex flex-row">
-								<div><div class="contact_info_icon"><img src="images/placeholder.svg" alt="Icône localisation"></div></div>
-								<div class="contact_info_text">4127 Raoul Wallenber 45b-c Gibraltar</div>
-							</li>
-							<li class="contact_info_item d-flex flex-row">
-								<div><div class="contact_info_icon"><img src="images/phone-call.svg" alt="Icône téléphone"></div></div>
-								<div class="contact_info_text">2556-808-8613</div>
-							</li>
-							<li class="contact_info_item d-flex flex-row">
-								<div><div class="contact_info_icon"><img src="images/message.svg" alt="Icône message"></div></div>
-								<div class="contact_info_text"><a href="mailto:contactme@gmail.com?Subject=Bonjour" target="_top">contactme@gmail.com</a></div>
-							</li>
-							<li class="contact_info_item d-flex flex-row">
-								<div><div class="contact_info_icon"><img src="images/planet-earth.svg" alt="Icône site web"></div></div>
-								<div class="contact_info_text"><a href="https://colorlib.com">www.colorlib.com</a></div>
-							</li>
-						</ul>
-					</div>
-
-				</div>
-
 			</div>
+
 		</div>
 	</div>
+</div>
 
 
+
+					
 
 	<!-- Footer -->
-
+	<br><br><br><br><br>
 	<footer class="footer">
 		<div class="container">
 			<div class="row">
@@ -228,11 +172,9 @@
 					<div class="footer_col">
 						<div class="footer_content footer_about">
 							<div class="logo_container footer_logo">
-
 								<div class="logo"><a href="#"><img src="images/logotripster.png" alt="Logo Tripster" height="125px" width="125px"></a></div>
 							</div>
-							<p class="footer_about_text">Tripster est votre partenaire de confiance pour des voyages inoubliables. Notre équipe passionnée s'engage à créer des expériences uniques, alliant confort, authenticité et découverte. Nous sélectionnons avec soin nos destinations et partenaires pour vous offrir le meilleur du voyage.</p>
-							<ul class="footer_social_list">
+							
 								<li class="footer_social_item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
 								<li class="footer_social_item"><a href="#"><i class="fa fa-facebook-f"></i></a></li>
 								<li class="footer_social_item"><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -286,14 +228,14 @@
 						<div class="footer_title">mots-clés</div>
 						<div class="footer_content footer_tags">
 							<ul class="tags_list clearfix">
-                                <li class="tag_item"><a href="#">design</a></li>
-                                <li class="tag_item"><a href="#">mode</a></li>
-                                <li class="tag_item"><a href="#">musique</a></li>
-                                <li class="tag_item"><a href="#">vidéo</a></li>
-                                <li class="tag_item"><a href="#">fête</a></li>
-                                <li class="tag_item"><a href="#">photographie</a></li>
-                                <li class="tag_item"><a href="#">aventure</a></li>
-                                <li class="tag_item"><a href="#">voyage</a></li>
+								<li class="tag_item"><a href="#">design</a></li>
+								<li class="tag_item"><a href="#">mode</a></li>
+								<li class="tag_item"><a href="#">musique</a></li>
+								<li class="tag_item"><a href="#">vidéo</a></li>
+								<li class="tag_item"><a href="#">fête</a></li>
+								<li class="tag_item"><a href="#">photographie</a></li>
+								<li class="tag_item"><a href="#">aventure</a></li>
+								<li class="tag_item"><a href="#">voyage</a></li>
 							</ul>
 						</div>
 					</div>
@@ -349,8 +291,9 @@ Copyright ©<script>document.write(new Date().getFullYear());</script> Tous droi
 								<li class="footer_nav_item"><a href="index.html">accueil</a></li>
 								<li class="footer_nav_item"><a href="about.html">à propos</a></li>
 								<li class="footer_nav_item"><a href="offers.html">offres</a></li>
-								<li class="footer_nav_item"><a href="blog.html">actualités</a></li>
-								<li class="footer_nav_item"><a href="#">contact</a></li>
+								<li class="footer_nav_item"><a href="#85545">Reclamation</a></li>
+                                <li class="main_nav_item"><a href="reponse.html">Reponse</a></li>
+								<li class="footer_nav_item"><a href="contact.html">contact</a></li>
 							</ul>
 						</div>
 					</div>
@@ -364,8 +307,9 @@ Copyright ©<script>document.write(new Date().getFullYear());</script> Tous droi
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>
+<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
-
+<script src="js/blog_custom.js"></script>
 
 </body>
 
