@@ -76,4 +76,10 @@
 
     echo "</tbody></table>";
     echo "</div>";
+    echo "<div class='d-flex justify-content-center align-items-center vh-50'>";
+    echo "  <a href='../View/front-office/reclamations.html' class='btn btn-primary mt-3'>Retour à l'accueil</a>";
+    echo "</div>";
+
+  
+    
 ?>

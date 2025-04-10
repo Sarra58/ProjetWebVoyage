@@ -62,29 +62,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="card-body">
-                    <form method="post">
-                        <div class="mb-3">
-                            <label for="reclamation_id" class="form-label">Réclamation ID</label>
-                            <input type="text" class="form-control" id="reclamation_id" name="reclamation_id" 
-                                   value="<?= htmlspecialchars($_GET['id']) ?>" readonly>
-                        </div>
+    <form method="post" id="reponseForm">
+        <div class="mb-3">
+            <label for="reclamation_id" class="form-label">Réclamation ID</label>
+            <input type="text" class="form-control" id="reclamation_id" name="reclamation_id" 
+                   value="<?= htmlspecialchars($_GET['id']) ?>" readonly>
+            <span id="reclamation_id_error" class="text-danger"></span>
+        </div>
 
-                        <div class="mb-3">
-                            <label for="contenu" class="form-label">Contenu</label>
-                            <input type="text" class="form-control" id="contenu" name="contenu" required>
-                        </div>
+        <div class="mb-3">
+            <label for="contenu" class="form-label">Contenu</label>
+            <input type="text" class="form-control" id="contenu" name="contenu">
+            <span id="contenu_error" class="text-danger"></span>
+        </div>
 
-                        <div class="mb-3">
-                            <label for="date_creation" class="form-label">Date de création</label>
-                            <input type="date" class="form-control" id="date_creation" name="date_creation" required>
-                        </div>
+        <div class="mb-3">
+            <label for="date_creation" class="form-label">Date de création</label>
+            <input type="date" class="form-control" id="date_creation" name="date_creation" >
+            <span id="date_creation_error" class="text-danger"></span>
+        </div>
 
-                        <div class="text-end">
-                            <button type="submit" class="btn text-white" style="background-color: #382260;">Envoyer</button>
-                            <button type="reset" class="btn text-white" style="background-color: #382260;">Annuler</button>
-                        </div>
-                    </form>
-                </div>
+        <div class="text-end">
+            <button type="submit" class="btn text-white" style="background-color: #382260;">Envoyer</button>
+            <button type="reset" class="btn text-white" style="background-color: #382260;">Annuler</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('reponseForm').addEventListener('submit', function(event) {
+        let isValid = true;
+
+        // Clear previous error messages
+        document.querySelectorAll('.text-danger').forEach(function(span) {
+            span.textContent = '';
+        });
+
+        // Validate Contenu
+        const contenu = document.getElementById('contenu').value.trim();
+        if (!contenu) {
+            document.getElementById('contenu_error').textContent = 'Le contenu est requis.';
+            isValid = false;
+        }
+
+        // Validate Date de création
+        const dateCreation = document.getElementById('date_creation').value;
+        if (!dateCreation) {
+            document.getElementById('date_creation_error').textContent = 'La date de création est requise.';
+            isValid = false;
+        }
+
+        // Optionally validate Réclamation ID even if it's readonly
+        const reclamationId = document.getElementById('reclamation_id').value;
+        if (!reclamationId) {
+            document.getElementById('reclamation_id_error').textContent = 'ID de réclamation manquant.';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+</script>
+
             </div>
 
         </div>
