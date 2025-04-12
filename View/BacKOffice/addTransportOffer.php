@@ -1,0 +1,198 @@
+<?php
+include(__DIR__ . '/../../controller/TransportOfferController.php');
+
+$error = "";
+$transport = null;
+$transportController = new TransportController();
+
+if (isset($_POST['nom_bapteme'], $_POST['nbre_de_place'], $_POST['couleur'], $_POST['marque'], $_POST['kilometrage'])) {
+    if (!empty($_POST['nom_bapteme']) && !empty($_POST['nbre_de_place']) && !empty($_POST['couleur']) && !empty($_POST['marque']) && !empty($_POST['kilometrage'])) {
+        // Créer l'objet Transport et l'ajouter à la base de données
+        $transport = new Transport(
+            null, // ou l'id si nécessaire
+            $_POST['nom_bapteme'],
+            $_POST['nbre_de_place'],
+            $_POST['couleur'],
+            $_POST['marque'],
+            $_POST['kilometrage']
+        );
+
+        // Appel à la méthode d'ajout
+        $result = $transportController->addTransport($transport);
+
+        if ($result === "Transport ajouté avec succès!") {
+            // Redirection après l'ajout avec succès
+            header("Location: TransportOfferList.php?success=true");
+            exit();
+        } else {
+            // Afficher une erreur si l'ajout échoue
+            $error = "Erreur : l'ajout a échoué. Veuillez réessayer.";
+        }
+    } else {
+        $error = "Toutes les informations sont nécessaires.";
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ajouter Transport</title>
+
+    <!-- Required meta tags -->
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        body {
+            background: linear-gradient(45deg, violet, orange); /* Gradient background */
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            animation: backgroundAnimation 10s ease-in-out infinite; /* Animation for dynamic background */
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                background: linear-gradient(45deg, violet, orange);
+            }
+
+            50% {
+                background: linear-gradient(45deg, orange, violet);
+            }
+
+            100% {
+                background: linear-gradient(45deg, violet, orange);
+            }
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        form {
+    font-family: 'Poppins', sans-serif; /* Applique Poppins au texte du formulaire */
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            color: violet;
+            text-align: center;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            background: linear-gradient(45deg, orange, violet);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 25px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, violet, orange);
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: violet;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Motivational Title -->
+    <h1 id="motivationalTitle">Le train, le bus ou l'avion : trois chemins, un seul but : votre satisfaction!</h1>
+
+    <!-- Form -->
+    <form method="POST" action="">
+        <label for="nom_bapteme">Nom du baptême:</label>
+        <select id="nom_bapteme" name="nom_bapteme" required>
+            <option value="Baptême1">Baptême1</option>
+            <option value="Baptême2">Baptême2</option>
+            <option value="Baptême3">Baptême3</option>
+            <option value="Baptême4">Baptême4</option>
+        </select><br>
+
+        <label for="nbre_de_place">Nombre de places:</label>
+        <input type="number" id="nbre_de_place" name="nbre_de_place" required><br>
+
+        <label for="couleur">Couleur:</label>
+        <input type="text" id="couleur" name="couleur"><br>
+
+        <label for="marque">Marque:</label>
+        <select id="marque" name="marque" required>
+            <option value="Marque1">Marque1</option>
+            <option value="Marque2">Marque2</option>
+            <option value="Marque3">Marque3</option>
+            <option value="Marque4">Marque4</option>
+        </select><br>
+
+        <label for="kilometrage">Kilométrage:</label>
+        <select id="kilometrage" name="kilometrage" required>
+            <option value="10000">10,000 km</option>
+            <option value="20000">20,000 km</option>
+            <option value="30000">30,000 km</option>
+            <option value="40000">40,000 km</option>
+        </select><br>
+
+        <button type="submit">ajouter un Transport</button>
+    </form>
+
+    <!-- JavaScript for Dynamic Effect -->
+    <script>
+        window.onload = function () {
+            // Display the title and form with a fade-in effect
+            document.getElementById("motivationalTitle").style.opacity = 1;
+            document.querySelector("form").style.opacity = 1;
+        }
+    </script>
+</body>
+
+</html>
