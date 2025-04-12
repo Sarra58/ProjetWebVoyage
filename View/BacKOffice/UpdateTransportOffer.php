@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Modifier Transport</title>
     <style>
         body {
-            background: linear-gradient(45deg, violet, orange);
+            background: linear-gradient(45deg, violet, black);
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
@@ -70,9 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         @keyframes backgroundAnimation {
-            0% { background: linear-gradient(45deg, violet, orange); }
-            50% { background: linear-gradient(45deg, orange, violet); }
-            100% { background: linear-gradient(45deg, violet, orange); }
+            0% { background: linear-gradient(45deg, violet, black); }
+            50% { background: linear-gradient(45deg, black, violet); }
+            100% { background: linear-gradient(45deg, violet, black); }
         }
 
         form {
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         button {
-            background: linear-gradient(45deg, orange, violet);
+            background: linear-gradient(45deg, black, violet);
             color: white;
             border: none;
             cursor: pointer;

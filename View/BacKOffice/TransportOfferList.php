@@ -26,7 +26,7 @@ if (empty($list)) {
     <style>
         /* Dégradé de fond orange et violet */
         body {
-            background: linear-gradient(45deg, #FF7F50, #8A2BE2); /* Dégradé entre orange et violet */
+            background: linear-gradient(45deg, black, #8A2BE2); /* Dégradé entre orange et violet */
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -101,7 +101,7 @@ if (empty($list)) {
         }
 
         .btn-primary:hover {
-            background-color: #FF5733;
+            background-color: black;
         }
 
         .btn-danger {
@@ -119,7 +119,7 @@ if (empty($list)) {
 
         /* Animation du bouton motivant */
         .motivational-btn {
-            background: #FF7F50;
+            background: black;
             padding: 15px 30px;
             border-radius: 50px;
             text-transform: uppercase;
