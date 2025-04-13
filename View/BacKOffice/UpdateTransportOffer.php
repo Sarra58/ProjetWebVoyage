@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <label for="nom_bapteme">Nom Baptême:</label>
         <select name="nom_bapteme" required>
             <?php
-            $baptemes = ["Baptême1", "Baptême2", "Baptême3", "Baptême4"];
+            $baptemes = ["Le Grand Voyageur", "Taureau d'Asphalte", "Vent Nomade", "Route d'Or","Voyage Indigo","Orion Prestige","Monte-Carlo","Galaxie Privée"];
             foreach ($baptemes as $b) {
                 $selected = ($transportActuel->getNomBapteme() === $b) ? 'selected' : '';
                 echo "<option value='$b' $selected>$b</option>";
@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <label for="marque">Marque:</label>
         <select name="marque" required>
             <?php
-            $marques = ["Marque1", "Marque2", "Marque3", "Marque4"];
+            $marques = ["Toyota", "Peugeot", "Renault", "Kia","Hyundai","Volkswagen","Mercedes-Benz","Audi"];
             foreach ($marques as $m) {
                 $selected = ($transportActuel->getMarque() === $m) ? 'selected' : '';
                 echo "<option value='$m' $selected>$m</option>";
@@ -150,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <label for="kilometrage">Kilométrage:</label>
         <select name="kilometrage" required>
             <?php
-            $kms = [10000, 20000, 30000, 40000];
+            $kms = [80000, 100000, 150000,200000,250000,300000];
             foreach ($kms as $km) {
                 $selected = ($transportActuel->getKilometrage() == $km) ? 'selected' : '';
                 echo "<option value='$km' $selected>" . number_format($km, 0, ',', ' ') . " km</option>";

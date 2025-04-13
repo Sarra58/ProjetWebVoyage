@@ -40,7 +40,7 @@ class TransportController
 
     public function addTransport($transport)
     {
-        // Afficher les données du formulaire pour déboguer
+        // Afficher les données de l'objet Transport pour vérifier
         var_dump([
             'nom_bapteme' => $transport->getNomBapteme(),
             'nbre_de_place' => $transport->getNbreDePlace(),
@@ -49,10 +49,11 @@ class TransportController
             'kilometrage' => $transport->getKilometrage()
         ]);
     
+        // Le reste du code d'insertion
         $sql = "INSERT INTO transport (nom_bapteme, nbre_de_place, couleur, marque, kilometrage) 
                 VALUES (:nom_bapteme, :nbre_de_place, :couleur, :marque, :kilometrage)";
         
-        $db = config::getConnexion();  // Assurez-vous que la connexion est correcte
+        $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute([
@@ -62,20 +63,8 @@ class TransportController
                 'marque' => $transport->getMarque(),
                 'kilometrage' => $transport->getKilometrage()
             ]);
-    
-            // Vérification si l'insertion a été effectuée
-            if ($query->rowCount() > 0) {
-                // Utiliser LAST_INSERT_ID pour obtenir l'ID généré
-                $lastInsertedId = $db->lastInsertId();
-                echo "Transport ajouté avec succès! ID généré: " . $lastInsertedId;
-            } else {
-                echo "Aucune ligne ajoutée. Il semble qu'il y ait un problème avec l'insertion.";
-            }
         } catch (PDOException $e) {
-            // Loggez l'erreur dans un fichier et affichez le message d'erreur
             echo 'Erreur de base de données : ' . $e->getMessage();
-            // Optionnellement, loggez l'erreur pour un suivi ultérieur
-            error_log($e->getMessage(), 3, 'errors.log');
         }
     }
     

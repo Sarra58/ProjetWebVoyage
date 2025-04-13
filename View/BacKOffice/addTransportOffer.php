@@ -287,45 +287,46 @@ if (isset($_POST['nom_bapteme'], $_POST['nbre_de_place'], $_POST['couleur'], $_P
     <form method="POST" action="">
         <label for="nom_bapteme">Nom du baptême:</label>
         <select id="nom_bapteme" name="nom_bapteme" required>
-            <option value="Baptême1">Le Grand Voyageur</option>
-            <option value="Baptême2">Taureau d’Asphalte</option>
-            <option value="Baptême3">Vent Nomade</option>
-            <option value="Baptême4">Route d’Or</option>
-            <option value="Baptême4">Voyage Indigo</option>
-            <option value="Baptême4">Orion Prestige</option>
-            <option value="Baptême4">Monte-Carlo</option>
-            <option value="Baptême4">Galaxie Privée</option>
+            <option value="Le Grand Voyageur">Le Grand Voyageur</option>
+            <option value="Taureau d’Asphalte">Taureau d’Asphalte</option>
+            <option value="Vent Nomade">Vent Nomade</option>
+            <option value="Vent Nomade">Vent Nomade</option>
+            <option value="Voyage Indigo">Voyage Indigo</option>
+            <option value="Orion Prestige">Orion Prestige</option>
+            <option value="Monte-Carlo">Monte-Carlo</option>
+            <option value="Galaxie Privée">Galaxie Privée</option>
         </select><br>
 
         <label for="nbre_de_place">Nombre de places:</label>
-        <input type="number" id="nbre_de_place" name="nbre_de_place" required><br>
+<input type="number" id="nbre_de_place" name="nbre_de_place" min="1" required><br>
+
 
         <label for="couleur">Couleur:</label>
-        <input type="text" id="couleur" name="couleur"><br>
+<input type="text" id="couleur" name="couleur" pattern="[A-Za-z]+" title="Veuillez saisir uniquement des lettres"><br>
 
         <label for="marque">Marque:</label>
         <select id="marque" name="marque" required>
-            <option value="Marque1">Toyota</option>
-            <option value="Marque2">Peugeot</option>
-            <option value="Marque3">Renault</option>
-            <option value="Marque4">Kia</option>
-            <option value="Marque4">Hyundai</option>
-            <option value="Marque4">Volkswagen</option>
-            <option value="Marque4">Mercedes-Benz</option>
-            <option value="Marque4">Audi</option>
+            <option value="Toyota">Toyota</option>
+            <option value="Peugeot">Peugeot</option>
+            <option value="Renault">Renault</option>
+            <option value="Kia">Kia</option>
+            <option value="Hyundai">Hyundai</option>
+            <option value="Volkswagen">Volkswagen</option>
+            <option value="Mercedes-Benz">Mercedes-Benz</option>
+            <option value="Audi">Audi</option>
         </select><br>
 
         <label for="kilometrage">Kilométrage:</label>
         <select id="kilometrage" name="kilometrage" required>
-            <option value="10000">80,000 km</option>
-            <option value="20000">100,000 km</option>
-            <option value="30000">150,000 km</option>
-            <option value="40000">200,000 km</option>
-            <option value="40000">250,000 km</option>
-            <option value="40000">300,000 km</option>
+            <option value="80000">80000</option>
+            <option value="100000">100000</option>
+            <option value="150000">150000</option>
+            <option value="200000">200000</option>
+            <option value="250000">250000</option>
+            <option value="300000">300000</option>
         </select><br>
 
-        <button type="submit">ajouter un Transport</button>
+        <button type="submit">Ajouter un Transport</button>
     </form>
 
     <!-- JavaScript for Dynamic Effect -->
