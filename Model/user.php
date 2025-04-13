@@ -7,17 +7,17 @@ class User {
     private ?string $email;
     private ?string $password;
     private ?string $role;
-    private ?int $numTel;
+    private ?int $Tel;
     
 
-    public function __construct(?int $id, ?string $nom,?string $prenom,?string $email, ?string $password, ?string $role,?int $numTel) {
+    public function __construct(?int $id, ?string $nom,?string $prenom,?string $email, ?string $password, ?string $role,?int $Tel) {
         $this->id = $id;
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->email = $email;
         $this->password = $password;
         $this->role = $role;
-        $this->numTel= $numTel;
+        $this->Tel= $Tel;
     }
 
     public function getId(): ?int {
@@ -66,12 +66,12 @@ class User {
     public function setRole(?string $role): void {
         $this->role = $role;
     }
-    public function getNumtel(): ?int {
-        return $this->numTel;
+    public function getTel(): ?int {
+        return $this->Tel;
     }
 
-    public function setNumtel(?int $numTel): void {
-        $this->numTel = $numTel;
+    public function setTel(?int $Tel): void {
+        $this->Tel = $Tel;
     }
 }
 ?>
