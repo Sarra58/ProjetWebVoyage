@@ -1,0 +1,521 @@
+<?php
+require_once '../../controller/TravelOfferController.php';
+
+$travelOfferC = new TravelOfferController();
+$travelOfferC->handleBooking();
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Nos Destinations - Tripster</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Projet Tripster">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+    <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="styles/contact_styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/contact_responsive.css">
+    <link rel="stylesheet" type="text/css" href="../../dest/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .booking-form {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-form h3 {
+            color: #2d2c2c;
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .form-group label {
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            border: 2px solid #eee;
+            border-radius: 8px;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #fa9e1b;
+            box-shadow: 0 0 0 0.2rem rgba(250, 158, 27, 0.15);
+        }
+
+        .btn-primary {
+            background: #fa9e1b;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #e88f0c;
+            transform: translateY(-2px);
+        }
+
+        .destination-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .destination-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .destination-content {
+            padding: 25px;
+        }
+
+        .destination-content h3 {
+            color: #2d2c2c;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .destination-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .category {
+            background: #f8f9fa;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .price {
+            color: #fa9e1b;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .selected-destination {
+            border: 3px solid #fa9e1b;
+            transform: translateY(-5px);
+        }
+
+        .home_title {
+            font-size: 72px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .alert {
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border: none;
+        }
+
+        .alert-success {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+            border-left: 4px solid #43a047;
+        }
+
+        .alert-danger {
+            background-color: #fbe9e7;
+            color: #c62828;
+            border-left: 4px solid #ef5350;
+        }
+
+        .footer_title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .footer_about_text {
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .tags_list .tag_item a {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .tags_list .tag_item a:hover {
+            background: #fa9e1b;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="super_container">
+
+    <!-- Header -->
+    <header class="header">
+        <!-- Top Bar -->
+        <div class="top_bar">
+            <div class="container">
+                <div class="row">
+                    <div class="col d-flex flex-row">
+                        <div class="phone">+45 345 3324 56789</div>
+                        <div class="social">
+                            <ul class="social_list">
+                                <li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                <li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                <li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                <li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+                                <li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="user_box ml-auto">
+                            <div class="user_box_login user_box_link"><a href="#">connexion</a></div>
+                            <div class="user_box_register user_box_link"><a href="#">s'inscrire</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navigation -->
+        <nav class="main_nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
+                        <div class="logo_container">
+                            <div class="logo"><a href="#"><img src="images/logotripster.png" alt="Logo Tripster" height="200px" width="200px"></a></div>
+                        </div>
+                        <div class="main_nav_container ml-auto">
+                            <ul class="main_nav_list">
+                                <li class="main_nav_item"><a href="index.html">accueil</a></li>
+                                <li class="main_nav_item"><a href="about.html">à propos</a></li>
+                                <li class="main_nav_item"><a href="offers.html">offres</a></li>
+                                <li class="main_nav_item"><a href="blog.html">actualités</a></li>
+                                <li class="main_nav_item"><a href="voyage.php">voyage</a></li>
+                                <li class="main_nav_item"><a href="mes-voyages.php">mes voyages</a></li>
+                                <li class="main_nav_item"><a href="offerList.html">admin</a></li>
+                            </ul>
+                        </div>
+                        <div class="content_search ml-lg-0 ml-auto">
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            width="17px" height="17px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+                                <g>
+                                    <g>
+                                        <g>
+                                            <path class="mag_glass" fill="#FFFFFF" d="M78.438,216.78c0,57.906,22.55,112.343,63.493,153.287c40.945,40.944,95.383,63.494,153.287,63.494
+                                            s112.344-22.55,153.287-63.494C489.451,329.123,512,274.686,512,216.78c0-57.904-22.549-112.342-63.494-153.286
+                                            C407.563,22.549,353.124,0,295.219,0c-57.904,0-112.342,22.549-153.287,63.494C100.988,104.438,78.439,158.876,78.438,216.78z
+                                            M119.804,216.78c0-96.725,78.69-175.416,175.415-175.416s175.418,78.691,175.418,175.416
+                                            c0,96.725-78.691,175.416-175.416,175.416C198.495,392.195,119.804,313.505,119.804,216.78z"/>
+                                        </g>
+                                    </g>
+                                    <g>
+                                        <g>
+                                            <path class="mag_glass" fill="#FFFFFF" d="M6.057,505.942c4.038,4.039,9.332,6.058,14.625,6.058s10.587-2.019,14.625-6.058L171.268,369.98
+                                            c8.076-8.076,8.076-21.172,0-29.248c-8.076-8.078-21.172-8.078-29.249,0L6.057,476.693
+                                            C-2.019,484.77-2.019,497.865,6.057,505.942z"/>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <form id="search_form" class="search_form bez_1">
+                            <input type="search" class="search_content_input bez_1">
+                        </form>
+
+                        <div class="hamburger">
+                            <i class="fa fa-bars trans_200"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+    </header>
+
+    <div class="menu trans_500">
+        <div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
+            <div class="menu_close_container"><div class="menu_close"></div></div>
+            <div class="logo"><a href="#"><img src="images/logotripster.png" alt="Logo Tripster" height="125px" width="125px"></a></div>
+            <ul>
+                <li class="menu_item"><a href="index.html">accueil</a></li>
+                <li class="menu_item"><a href="about.html">à propos</a></li>
+                <li class="menu_item"><a href="offers.html">offres</a></li>
+                <li class="menu_item"><a href="blog.html">actualités</a></li>
+                <li class="menu_item"><a href="voyage.php">voyage</a></li>
+                <li class="menu_item"><a href="mes-voyages.php">mes voyages</a></li>
+                <li class="menu_item"><a href="offerList.php">admin</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Home -->
+    <div class="home">
+        <div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/contact_background.jpg"></div>
+        <div class="home_content">
+            <div class="home_title">Découvrez nos destinations</div>
+        </div>
+    </div>
+
+    <!-- Destinations Section -->
+    <div class="contact_form_section">
+        <div class="container">
+            <?php if($travelOfferC->getError() != ""): ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $travelOfferC->getError(); ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if($travelOfferC->getSuccess() != ""): ?>
+                <div class="alert alert-success" role="alert">
+                    <?php echo $travelOfferC->getSuccess(); ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="row">
+                <!-- Destinations Grid -->
+                <div class="col-lg-8">
+                    <div class="row">
+                        <?php 
+                        echo $travelOfferC->getAllDestinationCards(); 
+                        ?>
+                    </div>
+                </div>
+
+                <!-- Booking Form -->
+                <div class="col-lg-4">
+                    <div class="booking-form">
+                        <h3 class="text-center mb-4">Réserver votre voyage</h3>
+                        <form action="" method="POST" id="bookingForm">
+                            <input type="hidden" name="destination_id" id="selected_destination_id">
+                            
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" class="form-control" id="email" name="email" required
+                                       value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="departure_date">Date de départ *</label>
+                                <input type="date" class="form-control" id="departure_date" name="departure_date" required
+                                       value="<?php echo isset($_POST['departure_date']) ? htmlspecialchars($_POST['departure_date']) : ''; ?>">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="return_date">Date de retour *</label>
+                                <input type="date" class="form-control" id="return_date" name="return_date" required
+                                       value="<?php echo isset($_POST['return_date']) ? htmlspecialchars($_POST['return_date']) : ''; ?>">
+                            </div>
+                            
+                            <button type="submit" name="submit_booking" class="btn btn-primary btn-block">Réserver</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+
+                <!-- Footer Column -->
+                <div class="col-lg-3 footer_column">
+                    <div class="footer_col">
+                        <div class="footer_content footer_about">
+                            <div class="logo_container footer_logo">
+                                <div class="logo"><a href="#"><img src="images/logotripster.png" alt="Logo Tripster" height="125px" width="125px"></a></div>
+                            </div>
+                            <p class="footer_about_text">Tripster est votre partenaire de confiance pour des voyages inoubliables. Notre équipe passionnée s'engage à créer des expériences uniques, alliant confort, authenticité et découverte.</p>
+                            <ul class="footer_social_list">
+                                <li class="footer_social_item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                                <li class="footer_social_item"><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                <li class="footer_social_item"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li class="footer_social_item"><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                                <li class="footer_social_item"><a href="#"><i class="fa fa-behance"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Column -->
+                <div class="col-lg-3 footer_column">
+                    <div class="footer_col">
+                        <div class="footer_title">articles de blog</div>
+                        <div class="footer_content footer_blog">
+                            <!-- Footer blog item -->
+                            <div class="footer_blog_item clearfix">
+                                <div class="footer_blog_image"><img src="images/footer_blog_1.jpg" alt="Image blog 1"></div>
+                                <div class="footer_blog_content">
+                                    <div class="footer_blog_title"><a href="blog.html">Voyagez avec nous cette année</a></div>
+                                    <div class="footer_blog_date">29 Nov, 2017</div>
+                                </div>
+                            </div>
+                            <!-- More blog items can be added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Column -->
+                <div class="col-lg-3 footer_column">
+                    <div class="footer_col">
+                        <div class="footer_title">mots-clés</div>
+                        <div class="footer_content footer_tags">
+                            <ul class="tags_list clearfix">
+                                <li class="tag_item"><a href="#">design</a></li>
+                                <li class="tag_item"><a href="#">mode</a></li>
+                                <li class="tag_item"><a href="#">musique</a></li>
+                                <li class="tag_item"><a href="#">vidéo</a></li>
+                                <li class="tag_item"><a href="#">fête</a></li>
+                                <li class="tag_item"><a href="#">photographie</a></li>
+                                <li class="tag_item"><a href="#">aventure</a></li>
+                                <li class="tag_item"><a href="#">voyage</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Column -->
+                <div class="col-lg-3 footer_column">
+                    <div class="footer_col">
+                        <div class="footer_title">coordonnées</div>
+                        <div class="footer_content footer_contact">
+                            <ul class="contact_info_list">
+                                <li class="contact_info_item d-flex flex-row">
+                                    <div><div class="contact_info_icon"><img src="images/placeholder.svg" alt="Icône localisation"></div></div>
+                                    <div class="contact_info_text">4127 Raoul Wallenber 45b-c Gibraltar</div>
+                                </li>
+                                <li class="contact_info_item d-flex flex-row">
+                                    <div><div class="contact_info_icon"><img src="images/phone-call.svg" alt="Icône téléphone"></div></div>
+                                    <div class="contact_info_text">2556-808-8613</div>
+                                </li>
+                                <li class="contact_info_item d-flex flex-row">
+                                    <div><div class="contact_info_icon"><img src="images/message.svg" alt="Icône message"></div></div>
+                                    <div class="contact_info_text"><a href="mailto:contactme@gmail.com?Subject=Bonjour" target="_top">contactme@gmail.com</a></div>
+                                </li>
+                                <li class="contact_info_item d-flex flex-row">
+                                    <div><div class="contact_info_icon"><img src="images/planet-earth.svg" alt="Icône site web"></div></div>
+                                    <div class="contact_info_text"><a href="https://colorlib.com">www.colorlib.com</a></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 order-lg-1 order-2">
+                    <div class="copyright_content d-flex flex-row align-items-center">
+                        <div>
+                            Copyright ©<script>document.write(new Date().getFullYear());</script> Tous droits réservés | Ce modèle est réalisé avec <i class="fa fa-heart-o" aria-hidden="true"></i> par <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 order-lg-2 order-1">
+                    <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
+                        <div class="footer_nav">
+                            <ul class="footer_nav_list">
+                                <li class="footer_nav_item"><a href="index.html">accueil</a></li>
+                                <li class="footer_nav_item"><a href="about.html">à propos</a></li>
+                                <li class="footer_nav_item"><a href="offers.html">offres</a></li>
+                                <li class="footer_nav_item"><a href="blog.html">actualités</a></li>
+                                <li class="footer_nav_item"><a href="voyage.php">voyage</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="styles/bootstrap4/popper.js"></script>
+<script src="styles/bootstrap4/bootstrap.min.js"></script>
+<script src="plugins/parallax-js-master/parallax.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Handle destination selection
+    $('.destination-card').click(function() {
+        var destinationId = $(this).data('destination-id');
+        $('#selected_destination_id').val(destinationId);
+        
+        // Update UI
+        $('.destination-card').removeClass('selected-destination');
+        $(this).addClass('selected-destination');
+        
+        // Scroll to form
+        $('html, body').animate({
+            scrollTop: $('#bookingForm').offset().top - 100
+        }, 500);
+    });
+
+    // Set minimum date for departure and return
+    var today = new Date().toISOString().split('T')[0];
+    $('#departure_date').attr('min', today);
+    
+    $('#departure_date').change(function() {
+        $('#return_date').attr('min', $(this).val());
+    });
+});
+</script>
+
+</body>
+</html>
