@@ -129,224 +129,153 @@
     
 		<!-- Buttons to toggle between Form and Dashboard -->
 		<div class="mb-4 text-center">
-			<button id="formBtn" class="btn btn-primary me-3">Formulaire</button>
+        <button id="formBtn" class="btn btn-primary me-3">
+  <a href="reclamations.html" class="text-white text-decoration-none d-block w-100 h-100">Formulaire</a>
+</button>
+
+<style>
+  button a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  button a:hover {
+    color: white;
+  }
+</style>
+
 			<button id="dashboardBtn" class="btn btn-secondary">Mes Reclamations</button>
 		</div>
-	
-		<!-- Script for toggling -->
-		<script>
-			// Show Form and hide Dashboard
-			document.getElementById('formBtn').addEventListener('click', function () {
-				document.getElementById('formSection').style.display = 'block';  // Show Form
-				document.getElementById('dashboardSection').style.display = 'none';  // Hide Dashboard
-			});
-	
-			// Show Dashboard and hide Form
-			document.getElementById('dashboardBtn').addEventListener('click', function () {
-				document.getElementById('formSection').style.display = 'none';  // Hide Form
-				document.getElementById('dashboardSection').style.display = 'block';  // Show Dashboard
-			});
-	
-			// Default to showing the form section when the page loads
-			window.addEventListener('DOMContentLoaded', () => {
-				document.getElementById('formSection').style.display = 'block';  // Show Form
-				document.getElementById('dashboardSection').style.display = 'none';  // Hide Dashboard
-			});
-		</script>
-	
-		<!-- Form Section (Initially visible) -->
-		<div id="formSection">
-			<div class="row justify-content-center">
-				<div class="col-lg-8">
-					<div class="card shadow">
-						<div class="card-header text-white" style="background-color: #382260;">
-							<h4 class="mb-0">Formulaire</h4>
-						</div>
-						
-						<div class="card-body">
-							<form action="..\..\Controller\ReclamationC.php" method="post" id="reclamationForm">
-								<!-- Form fields (as in your original code) -->
-								<div class="mb-3">
-									<label for="utilisateur_id" class="form-label">Utilisateur ID</label>
-									<input type="text" class="form-control" id="utilisateur_id" name="utilisateur_id" >
-									<span id="utilisateur_id_error" class="text-danger"></span>
-								</div>
-	
-								<div class="mb-3">
-									<label for="sujet" class="form-label">Sujet</label>
-									<input type="text" class="form-control" id="sujet" name="sujet" >
-									<span id="sujet_error" class="text-danger"></span>
-								</div>
-	
-								<div class="mb-3">
-									<label for="description" class="form-label">Description</label>
-									<textarea class="form-control" id="description" name="description" rows="4" ></textarea>
-									<span id="description_error" class="text-danger"></span>
-								</div>
-	
-								<div class="mb-3">
-									<label for="statut" class="form-label">Statut</label>
-									<select class="form-select" id="statut" name="statut" >
-										<option value="">Choisir...</option>
-										<option value="ouvert">Ouvert</option>
-										<option value="en cours">En cours</option>
-										<option value="fermé">Fermé</option>
-									</select>
-									<span id="statut_error" class="text-danger"></span>
-								</div>
-	
-								<div class="mb-3">
-									<label for="date_creation">Date de création :</label>
-									<input type="date" id="date_creation" name="date_creation" readonly>
-									<span id="date_creation_error" style="color:red;"></span>
-									<script>
-										window.addEventListener('DOMContentLoaded', () => {
-											const today = new Date();
-											const yyyy = today.getFullYear();
-											const mm = String(today.getMonth() + 1).padStart(2, '0');
-											const dd = String(today.getDate()).padStart(2, '0');
-											const currentDate = `${yyyy}-${mm}-${dd}`;
-											document.getElementById('date_creation').value = currentDate;
-										});
-									</script>
-								</div>
-	
-								<div class="mb-3">
-									<label for="date_fermeture" class="form-label">Date de fermeture</label>
-									<input type="date" class="form-control" id="date_fermeture" name="date_fermeture">
-									<span id="date_fermeture_error" class="text-danger"></span>
-								</div>
-	
-								<div class="text-end">
-									<button type="submit" class="btn text-white" style="background-color: #382260;">Envoyer</button>
-									<button type="reset" class="btn text-white" style="background-color: #382260;">Annuler</button>
-								</div>
-							</form>
-						</div>
+
+
+
+<?php
+// Connexion à la base de données
+$host = 'localhost';
+$dbname = 'my_database';
+$username = 'root';
+$password = '';
+
+try {
+	$pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+} catch (PDOException $e) {
+	die("Erreur de connexion : " . $e->getMessage());
+}
+
+$reclamations = [];
+$utilisateur_id2 = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['utilisateur_id2'])) {
+	$utilisateur_id2 = trim($_POST['utilisateur_id2']);
+
+	if (!empty($utilisateur_id2) && preg_match('/^\d+$/', $utilisateur_id2)) {
+		$stmt = $pdo->prepare("SELECT * FROM reclamation WHERE utilisateur_id = :id");
+		$stmt->bindParam(':id', $utilisateur_id2, PDO::PARAM_INT);
+		$stmt->execute();
+		$reclamations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+}
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Mes Réclamations</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+	<!-- Dashboard Section -->
+	<div id="dashboardSection">
+		<div class="row justify-content-center">
+			<div class="col-lg-10">
+				<div class="card shadow">
+					<div class="card-header text-white" style="background-color: #382260;">
+						<h4 class="mb-0">Mes Réclamations</h4>
 					</div>
-				</div>
-			</div>
-		</div>
-	
-		<!-- Dashboard Section (Initially hidden) -->
-		<div id="dashboardSection" style="display: none;">
-			<div class="row justify-content-center">
-				<div class="col-lg-8">
-					<div class="card shadow">
-						<div class="card-header text-white" style="background-color: #382260;">
-							<h4 class="mb-0">Mes Reclamations</h4>
-						</div>
-						
-						<div class="card-body">
-							<form action="reclamations_affichage.php" method="post" id="afficahge">
 
-								<div class="mb-3">
-									<label for="utilisateur_id" class="form-label">Utilisateur ID</label>
-									<input type="text" class="form-control" id="utilisateur_id2" name="utilisateur_id2" >
-									<span id="utilisateur_id_error2" class="text-danger"></span>
-								</div>
-								<div class="text-end">
-									<button type="submit" class="btn text-white" style="background-color: #382260;">Envoyer</button>
-									<button type="reset" class="btn text-white" style="background-color: #382260;">Annuler</button>
-								</div>
+					<div class="card-body">
+						<!-- Formulaire -->
+						<form action="" method="post" id="afficahge">
+							<div class="mb-3">
+								<label for="utilisateur_id2" class="form-label">Utilisateur ID</label>
+								<input type="text" class="form-control" id="utilisateur_id2" name="utilisateur_id2" value="<?= htmlspecialchars($utilisateur_id2) ?>">
+								<span id="utilisateur_id_error2" class="text-danger"></span>
+							</div>
+							<div class="text-end">
+								<button type="submit" class="btn text-white" style="background-color: #382260;">Envoyer</button>
+								<button type="reset" class="btn text-white" style="background-color: #382260;">Annuler</button>
+							</div>
+						</form>
 
-							</form>
-						</div>
+						<!-- Validation JS -->
+						<script>
+							document.getElementById("afficahge").addEventListener("submit", function (e) {
+								const utilisateurId = document.getElementById("utilisateur_id2").value.trim();
+								const errorSpan = document.getElementById("utilisateur_id_error2");
+								let isValid = true;
+
+								errorSpan.textContent = "";
+
+								if (utilisateurId === "") {
+									errorSpan.textContent = "Le champ est requis.";
+									isValid = false;
+								} else if (!/^\d+$/.test(utilisateurId)) {
+									errorSpan.textContent = "Le champ doit contenir uniquement des chiffres.";
+									isValid = false;
+								}
+
+								if (!isValid) {
+									e.preventDefault();
+								}
+							});
+						</script>
+
+						<!-- Tableau des réclamations -->
+						<?php if (!empty($reclamations)) : ?>
+							<hr>
+							<h5>Résultats pour l'utilisateur ID <?= htmlspecialchars($utilisateur_id2) ?></h5>
+							<table class="table table-bordered mt-3">
+								<thead>
+									<tr>
+										<th>Sujet</th>
+										<th>Description</th>
+										<th>Statut</th>
+										<th>Date Création</th>
+										<th>Date Fermeture</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach ($reclamations as $rec) : ?>
+										<tr>
+											<td><?= htmlspecialchars($rec['sujet']) ?></td>
+											<td><?= htmlspecialchars($rec['description']) ?></td>
+											<td><?= htmlspecialchars($rec['statut']) ?></td>
+											<td><?= htmlspecialchars($rec['date_creation']) ?></td>
+											<td><?= htmlspecialchars($rec['date_fermeture']) ?></td>
+											<td>
+												<a href="supprimer_reclamation.php?id=<?= $rec['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Confirmer la suppression ?')">Supprimer</a>
+											</td>
+										</tr>
+									<?php endforeach ?>
+								</tbody>
+							</table>
+						<?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST') : ?>
+							<div class="alert alert-info mt-3">Aucune réclamation trouvée pour cet utilisateur.</div>
+						<?php endif ?>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
-	
-	<script>
-		document.getElementById('reclamationForm').addEventListener('submit', function(event) {
-			let isValid = true;
-			
-			// Clear all error messages first
-			document.querySelectorAll('.text-danger').forEach(function(error) {
-				error.textContent = '';
-			});
-	
-			// Validate Utilisateur ID
-			const utilisateurId = document.getElementById('utilisateur_id').value;
-			if ((!utilisateurId) || (isNaN(utilisateurId))) {
-				document.getElementById('utilisateur_id_error').textContent = 'L\'ID utilisateur est requis et doit etre numerique.';
-				isValid = false;
-			}
-	
-			// Validate Sujet
-			const sujet = document.getElementById('sujet').value;
-			if ((!sujet) || !(isNaN(sujet))) {
-				document.getElementById('sujet_error').textContent = 'Le sujet est requis et doit etre chaine de caractere.';
-				isValid = false;
-			}
-	
-			// Validate Description
-			const description = document.getElementById('description').value;
-			if ((!description) || !(isNaN(description))) {
-				document.getElementById('description_error').textContent = 'La description est requise et doit etre chaine de caractere.';
-				isValid = false;
-			}
-	
-			// Validate Statut
-			const statut = document.getElementById('statut').value;
-			if (!statut) {
-				document.getElementById('statut_error').textContent = 'Le statut est requis.';
-				isValid = false;
-			}
-
-
-
-			// Validate Date de fermeture (if provided)
-			const dateFermeture = document.getElementById('date_fermeture').value;
-			const dateCreation = document.getElementById('date_creation').value;
-			if (!dateFermeture ||   dateFermeture && new Date(dateFermeture) < new Date(dateCreation)) {
-				document.getElementById('date_fermeture_error').textContent = 'La date de fermeture ne peut pas être avant la date de création.';
-				isValid = false;
-			}
-	
-			// Prevent form submission if validation fails
-			if (!isValid) {
-				event.preventDefault();
-			}
-		});
-	</script>
-
-	<script>
-		document.getElementById("afficahge").addEventListener("submit", function (e) {
-			let isValid = true;
-			
-			// Clear all error messages first
-			document.querySelectorAll('.text-danger').forEach(function(error) {
-				error.textContent = '';
-			});
-	
-			// Validate Utilisateur ID
-			const utilisateurId = document.getElementById('utilisateur_id2').value;
-			if ((!utilisateurId) || (isNaN(utilisateurId))) {
-				document.getElementById('utilisateur_id_error2').textContent = 'L\'ID utilisateur est requis et doit etre numerique.';
-				isValid = false;
-			}
-			// Prevent form submission if validation fails
-			if (!isValid) {
-				event.preventDefault();
-			}
-
-		});
-	</script>
-
-
-	
-
-
-
-
-					
-
-	<!-- Footer -->
-	<br><br><br><br><br>
+</div>
+<!-- Footer -->
+<br><br><br><br><br>
 	<footer class="footer">
 		<div class="container">
 			<div class="row">
