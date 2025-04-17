@@ -40,15 +40,6 @@ class TransportController
 
     public function addTransport($transport)
     {
-        // Afficher les données de l'objet Transport pour vérifier
-        var_dump([
-            'nom_bapteme' => $transport->getNomBapteme(),
-            'nbre_de_place' => $transport->getNbreDePlace(),
-            'couleur' => $transport->getCouleur(),
-            'marque' => $transport->getMarque(),
-            'kilometrage' => $transport->getKilometrage()
-        ]);
-    
         // Le reste du code d'insertion
         $sql = "INSERT INTO transport (nom_bapteme, nbre_de_place, couleur, marque, kilometrage) 
                 VALUES (:nom_bapteme, :nbre_de_place, :couleur, :marque, :kilometrage)";
@@ -63,6 +54,7 @@ class TransportController
                 'marque' => $transport->getMarque(),
                 'kilometrage' => $transport->getKilometrage()
             ]);
+            return $db->lastInsertId(); //
         } catch (PDOException $e) {
             echo 'Erreur de base de données : ' . $e->getMessage();
         }

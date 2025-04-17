@@ -1,38 +1,110 @@
 <?php
+ob_start(); // ⚠️ Démarre la mise en tampon de sortie pour éviter les erreurs de header
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include(__DIR__ . '/../../controller/TransportOfferController.php');
 
 $error = "";
+$success = "";
 $transport = null;
 $transportController = new TransportController();
 
-if (isset($_POST['nom_bapteme'], $_POST['nbre_de_place'], $_POST['couleur'], $_POST['marque'], $_POST['kilometrage'])) {
-    if (!empty($_POST['nom_bapteme']) && !empty($_POST['nbre_de_place']) && !empty($_POST['couleur']) && !empty($_POST['marque']) && !empty($_POST['kilometrage'])) {
-        // Créer l'objet Transport et l'ajouter à la base de données
-        $transport = new Transport(
-            null, // ou l'id si nécessaire
-            $_POST['nom_bapteme'],
-            $_POST['nbre_de_place'],
-            $_POST['couleur'],
-            $_POST['marque'],
-            $_POST['kilometrage']
-        );
+if (
+    isset($_POST['nom_bapteme'], $_POST['nbre_de_place'], $_POST['couleur'], $_POST['marque'], $_POST['kilometrage']) &&
+    !empty($_POST['nom_bapteme']) && !empty($_POST['nbre_de_place']) && !empty($_POST['couleur']) &&
+    !empty($_POST['marque']) && !empty($_POST['kilometrage'])
+) {
+    // Créer l'objet Transport et l'ajouter à la base de données
+    $transport = new Transport(
+        null,
+        $_POST['nom_bapteme'],
+        $_POST['nbre_de_place'],
+        $_POST['couleur'],
+        $_POST['marque'],
+        $_POST['kilometrage']
+    );
 
-        // Appel à la méthode d'ajout
-        $result = $transportController->addTransport($transport);
+    // Appel à la méthode d'ajout
+    $result = $transportController->addTransport($transport);
+    session_start();
 
-        if ($result === "Transport ajouté avec succès!") {
-            // Redirection après l'ajout avec succès
-            header("Location: TransportOfferList.php?success=true");
-            exit();
-        } else {
-            // Afficher une erreur si l'ajout échoue
-            $error = "Erreur : l'ajout a échoué. Veuillez réessayer.";
-        }
-    } else {
-        $error = "Toutes les informations sont nécessaires.";
-    }
+if ($result && is_numeric($result)) {
+    $_SESSION['transport_id'] = $result; // Tu auras besoin de l'ID pour lier le monument
+    $_SESSION['transport_data'] = [
+        'nom_bapteme' => $_POST['nom_bapteme'],
+        'nbre_de_place' => $_POST['nbre_de_place'],
+        'couleur' => $_POST['couleur'],
+        'marque' => $_POST['marque'],
+        'kilometrage' => $_POST['kilometrage']
+    ];
+
+   
+}
 }
 ?>
+
+<?php if (!empty($result) && is_numeric($result)): ?>
+    <style>
+        .car-animation {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            overflow: visible;
+            margin-top: 20px;
+        }
+
+        .car {
+            position: absolute;
+            left: -200px;
+            animation: drive 20s ease-in-out forwards;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+            color:rgb(248, 245, 249);
+            background: linear-gradient(to right, rgb(98, 9, 165), black);
+
+            border: 2px solid purple;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+
+        @keyframes drive {
+            from { left: -200px; }
+            to { left: 100%; }
+        }
+
+        .car-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+    </style>
+
+<div class="car-animation" style="margin-top: 50px;">
+    <div class="car">
+        <div class="car-icon">🚗💨</div>
+        Transport ajouté avec succès ! ID = <?= htmlspecialchars($result) ?>
+    </div>
+</div>
+
+<?php elseif (!empty($error)): ?>
+    <div style="
+        background-color: #ffe6e6;
+        border: 2px solid #dc3545;
+        color: #721c24;
+        font-weight: bold;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 5px;
+    ">
+        <?= htmlspecialchars($error) ?>
+    </div>
+<?php endif; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +120,13 @@ if (isset($_POST['nom_bapteme'], $_POST['nbre_de_place'], $_POST['couleur'], $_P
     <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
-
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="styles/responsive.css">
     <!-- Layout styles -->
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -64,6 +142,7 @@ if (isset($_POST['nom_bapteme'], $_POST['nbre_de_place'], $_POST['couleur'], $_P
             margin: 0;
             overflow: hidden;
             animation: backgroundAnimation 12s ease-in-out infinite; /* Animation pour fond dynamique */
+            overflow-y: auto; 
         }
 
         @keyframes backgroundAnimation {
@@ -162,6 +241,7 @@ if (isset($_POST['nom_bapteme'], $_POST['nbre_de_place'], $_POST['couleur'], $_P
             transition: all 0.3s ease;
             font-weight: bold;
         }
+        
 
         button:hover {
             background: linear-gradient(45deg, violet, black);
@@ -269,9 +349,20 @@ if (isset($_POST['nom_bapteme'], $_POST['nbre_de_place'], $_POST['couleur'], $_P
         }
 
     </style>
+    <style>
+        .top_bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #350a4e;
+            z-index: 10;
+        }
+    </style>
 </head>
 
 <body>
+    
 <div class="car-left">
         <img src="Asset 2.png" alt="Car Left">
     </div>
@@ -279,55 +370,122 @@ if (isset($_POST['nom_bapteme'], $_POST['nbre_de_place'], $_POST['couleur'], $_P
     <div class="car-right">
         <img src="1.png" alt="Car Right">
     </div>
-
+    <div class="top_bar">
+			<div class="container">
+				<div class="row">
+					<div class="col d-flex flex-row">
+						<div class="phone">+45 345 3324 56789</div>
+						<div class="social">
+							<ul class="social_list">
+								<li class="social_list_item"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+								<li class="social_list_item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+						<div class="user_box ml-auto">
+							<div class="user_box_login user_box_link"><a href="#">connexion</a></div>
+							<div class="user_box_register user_box_link"><a href="#">s'inscrire</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
     <!-- Motivational Title -->
-    <h1 id="motivationalTitle">Chaque destination mérite un moyen de transport à la hauteur de ses rêves!</h1>
+    <h1 id="motivationalTitle" style="margin-top: 50px;">
+  Chaque destination mérite un moyen de transport à la hauteur de ses rêves!
+</h1>
 
     <!-- Form -->
-    <form method="POST" action="">
-        <label for="nom_bapteme">Nom du baptême:</label>
-        <select id="nom_bapteme" name="nom_bapteme" required>
-            <option value="Le Grand Voyageur">Le Grand Voyageur</option>
-            <option value="Taureau d’Asphalte">Taureau d’Asphalte</option>
-            <option value="Vent Nomade">Vent Nomade</option>
-            <option value="Vent Nomade">Vent Nomade</option>
-            <option value="Voyage Indigo">Voyage Indigo</option>
-            <option value="Orion Prestige">Orion Prestige</option>
-            <option value="Monte-Carlo">Monte-Carlo</option>
-            <option value="Galaxie Privée">Galaxie Privée</option>
-        </select><br>
+    <?php
+echo '<form method="POST" action="">';
 
-        <label for="nbre_de_place">Nombre de places:</label>
-<input type="number" id="nbre_de_place" name="nbre_de_place" min="1" required><br>
+echo '<label for="nom_bapteme" style="font-family: \'Georgia\', serif; font-size: 18px; color: purple;">Nom du baptême:</label>';
+echo '<select id="nom_bapteme" name="nom_bapteme" required>';
+$nom_baptemes = [
+    "Le Grand Voyageur",
+    "Taureau d’Asphalte",
+    "Vent Nomade",
+    "Voyage Indigo",
+    "Orion Prestige",
+    "Monte-Carlo",
+    "Galaxie Privée"
+];
+foreach ($nom_baptemes as $nom) {
+    echo "<option value=\"$nom\">$nom</option>";
+}
+echo '</select><br>';
+
+echo '<label for="nbre_de_place" style="font-family: \'Georgia\', serif; font-size: 18px; color: purple;">Nombre de places:</label>';
+echo '<input type="number" id="nbre_de_place" name="nbre_de_place" min="4" max="8" required style="width: 60px;"><br>';
 
 
-        <label for="couleur">Couleur:</label>
-<input type="text" id="couleur" name="couleur" pattern="[A-Za-z]+" title="Veuillez saisir uniquement des lettres"><br>
 
-        <label for="marque">Marque:</label>
-        <select id="marque" name="marque" required>
-            <option value="Toyota">Toyota</option>
-            <option value="Peugeot">Peugeot</option>
-            <option value="Renault">Renault</option>
-            <option value="Kia">Kia</option>
-            <option value="Hyundai">Hyundai</option>
-            <option value="Volkswagen">Volkswagen</option>
-            <option value="Mercedes-Benz">Mercedes-Benz</option>
-            <option value="Audi">Audi</option>
-        </select><br>
+echo '<label for="couleur" style="font-family: \'Georgia\', serif; font-size: 18px; color: purple;">Couleur:</label>';
+echo '<select id="couleur" name="couleur" required>';
 
-        <label for="kilometrage">Kilométrage:</label>
-        <select id="kilometrage" name="kilometrage" required>
-            <option value="80000">80000</option>
-            <option value="100000">100000</option>
-            <option value="150000">150000</option>
-            <option value="200000">200000</option>
-            <option value="250000">250000</option>
-            <option value="300000">300000</option>
-        </select><br>
+$couleurs = ["noir", "rouge", "bleu", "blanche", "gris"];
+foreach ($couleurs as $couleur) {
+    echo "<option value=\"$couleur\">$couleur</option>";
+}
 
-        <button type="submit">Ajouter un Transport</button>
-    </form>
+echo '</select><br>';
+
+
+echo '<label for="marque" style="font-family: \'Georgia\', serif; font-size: 18px; color: purple;">Marque:</label>';
+echo '<select id="marque" name="marque" required>';
+$marques = [
+    "Toyota", "Peugeot", "Renault", "Kia", "Hyundai",
+    "Volkswagen", "Mercedes-Benz", "Audi"
+];
+foreach ($marques as $marque) {
+    echo "<option value=\"$marque\">$marque</option>";
+}
+echo '</select><br>';
+
+echo '<label for="kilometrage" style="font-family: \'Georgia\', serif; font-size: 18px; color: purple;">Kilométrage:</label>';
+echo '<select id="kilometrage" name="kilometrage" required>';
+$kilometrages = ["80000", "100000", "150000", "200000", "250000", "300000"];
+foreach ($kilometrages as $km) {
+    echo "<option value=\"$km\">$km</option>";
+}
+echo '</select><br>';
+
+echo '
+  <!-- Bouton Ajouter un Transport -->
+  <div style="text-align: left;">
+    <button type="submit" style="font-family: Georgia, serif; font-size: 16px; padding: 8px 16px;">
+      Ajouter un Transport
+    </button>
+  </div>
+
+  <!-- Bouton Choisir un Monument aligné à droite -->
+  <div style="text-align: right; margin-top: 10px;">
+    <a href="addmonumentoffer.php" style="text-decoration: none;">
+      <button type="button" style="font-family: Georgia, serif; font-size: 16px; padding: 8px 16px;">
+        Choisir un Monument
+      </button>
+    </a>
+  </div>';
+
+
+
+
+
+
+echo '</form>';
+
+?>
+ <?php
+    if (!empty($success)) {
+        echo "<div style='color: green; font-weight: bold; margin-top: 20px;'>$success</div>";
+    }
+    if (!empty($error)) {
+        echo "<div style='color: red; font-weight: bold; margin-top: 20px;'>$error</div>";
+    }
+    ?>
 
     <!-- JavaScript for Dynamic Effect -->
     <script>

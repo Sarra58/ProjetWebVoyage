@@ -17,7 +17,7 @@ class config
                 self::$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
                 // Message pour confirmer que la connexion a réussi
-                echo "Connexion réussie à la base de données '$dbname'!";
+                //echo "Connexion réussie à la base de données '$dbname'!";
             } catch (Exception $e) {
                 // Si une erreur se produit, affiche le message d'erreur
                 die('Erreur: ' . $e->getMessage());
