@@ -1,22 +1,24 @@
 <?php
 include(__DIR__ . '/../../controller/TransportOfferController.php');
-$travelOfferC = new TransportController();
-$id = $_GET['id'] ?? null;
+include(__DIR__ . '/../../controller/monumentoffercontroller.php');
 
-// On vérifie si un ID est passé en GET. Si c'est le cas, on affiche ce transport spécifique, sinon tous les transports.
+// Initialiser les contrôleurs
+$travelOfferC = new TransportController();
+$monumentController = new MonumentController();
+
+// Récupérer tous les transports
+$id = $_GET['id'] ?? null;
 if ($id !== null) {
     $transport = $travelOfferC->showTransport($id);
-    $list = [$transport]; // On le met dans un tableau pour qu’il fonctionne dans le foreach
+    $list = [$transport];
 } else {
     $list = $travelOfferC->showAllTransports();
 }
 
-// Si $list est vide, afficher un message
-if (empty($list)) {
-    echo "Aucun transport disponible.";
-}
-
+// Récupérer tous les monuments associés aux transports
+$transportMonuments = $monumentController->showAllMonuments();
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -410,68 +412,101 @@ margin-left: 20px;
 
         <!-- Votre code PHP avec la table -->
         <div class="col-xl-12 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="table-responsive">
-                        <table class="table table-bordered table-sm custom-table">
-
-                                <thead>
-                                    <tr>
-                                        <th>id_de_transport</th>
-                                        <th>Nom_Bapteme</th>
-                                        <th>Nbre_de_place</th>
-                                        <th>Couleur</th>
-                                        <th>Marque</th>
-                                        <th>Kilometrage</th>
-                                        <th colspan="2">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    // Affichage de la liste des transports
-                                    foreach ($list as $transport) {
-                                        // Échapper les données pour prévenir les attaques XSS
-                                        $id_de_transport = htmlspecialchars($transport['id_de_transport']);
-                                        $nom_bapteme = htmlspecialchars($transport['nom_bapteme']);
-                                        $nbre_de_place = htmlspecialchars($transport['nbre_de_place']);
-                                        $couleur = htmlspecialchars($transport['couleur']);
-                                        $marque = htmlspecialchars($transport['marque']);
-                                        $kilometrage = htmlspecialchars($transport['kilometrage']);
-                                    ?>
-                                        <tr>
-                                            <td><?= $id_de_transport; ?></td>
-                                            <td><?= $nom_bapteme; ?></td>
-                                            <td><?= $nbre_de_place; ?></td>
-                                            <td><?= $couleur; ?></td>
-                                            <td><?= $marque; ?></td>
-                                            <td><?= $kilometrage; ?></td>
-                                            <td align="center">
-                                                <!-- Formulaire pour mettre à jour le transport -->
-                                                <form method="POST" action="UpdateTransportOffer.php" style="display:inline;">
-                                                    <input type="hidden" name="id_de_transport" value="<?= $id_de_transport; ?>">
-                                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <!-- Lien pour supprimer le transport -->
-                                                <a href="DeleteTransportOffer.php?id_de_transport=<?= $id_de_transport; ?>" 
-   class="btn btn-danger btn-sm" 
-   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce transport ?');">
-   Delete
-</a>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+    <!-- Table pour les transports -->
+    <div class="col-xl-12 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+            <h5 class="text-primary">Liste des Transports</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm custom-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom Bapteme</th>
+                            <th>Nombre de places</th>
+                            <th>Couleur</th>
+                            <th>Marque</th>
+                            <th>Kilométrage</th>
+                            <th colspan="2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($list)): ?>
+                            <?php foreach ($list as $transport): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($transport['id_de_transport']) ?></td>
+                                    <td><?= htmlspecialchars($transport['nom_bapteme']) ?></td>
+                                    <td><?= htmlspecialchars($transport['nbre_de_place']) ?></td>
+                                    <td><?= htmlspecialchars($transport['couleur']) ?></td>
+                                    <td><?= htmlspecialchars($transport['marque']) ?></td>
+                                    <td><?= htmlspecialchars($transport['kilometrage']) ?></td>
+                                    <td>
+                                        <form method="POST" action="UpdateTransportOffer.php" style="display:inline;">
+                                            <input type="hidden" name="id_de_transport" value="<?= htmlspecialchars($transport['id_de_transport']) ?>">
+                                            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a href="DeleteTransportOffer.php?id_de_transport=<?= htmlspecialchars($transport['id_de_transport']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr ?');">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr><td colspan="8">Aucun transport trouvé.</td></tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
+</div>
+<div class="col-xl-12 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+            <h5 class="text-success">Monuments associés aux Transports</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm custom-table">
+                    <thead>
+                        <tr>
+                            <th>ID Monument</th>
+                            <th>Transport ID</th>
+                            <th>Nom du Monument</th>
+                            <th>Date de départ</th>
+                            <th>Heure de départ</th>
+                            <th colspan="2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($transportMonuments)): ?>
+                            <?php foreach ($transportMonuments as $monument): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($monument['id_monument']) ?></td>
+                                    <td><?= htmlspecialchars($monument['transport_id']) ?></td>
+                                    <td><?= htmlspecialchars($monument['nom_monument']) ?></td>
+                                    <td><?= htmlspecialchars($monument['date_depart']) ?></td>
+                                    <td><?= htmlspecialchars($monument['heure_depart']) ?></td>
+                                    <td>
+                                        <form method="POST" action="UpdateMonumentOffer.php" style="display:inline;">
+                                            <input type="hidden" name="id_monument" value="<?= htmlspecialchars($monument['id_monument']) ?>">
+                                            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a href="DeleteMonumentOffer.php?id_monument=<?= htmlspecialchars($monument['id_monument']) ?>" 
+                                           class="btn btn-danger btn-sm" 
+                                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce monument ?');">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr><td colspan="7">Aucun monument trouvé.</td></tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- Bouton motivant -->
         <div class="text-center mt-4">

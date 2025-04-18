@@ -1,5 +1,5 @@
 <?php
-include(__DIR__ . '/../config.php');
+include_once(__DIR__ . '/../config.php'); 
 include(__DIR__ . '/../Model/monumentoffer.php');
 
 class MonumentController
@@ -105,6 +105,22 @@ class MonumentController
             return null;
         }
     }
+    public function showMonument($id)
+{
+    $sql = "SELECT * FROM monument WHERE id_monument = :id";
+    $db = config::getConnexion();
+
+    try {
+        $query = $db->prepare($sql);
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->execute();
+
+        return $query->fetch();
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
+}
+
 
     public function showAllMonuments()
     {

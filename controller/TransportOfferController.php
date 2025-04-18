@@ -1,5 +1,5 @@
 <?php
-include(__DIR__ . '/../config.php');
+include_once(__DIR__ . '/../config.php'); 
 include(__DIR__ . '/../Model/TransportOffer.php');
 
 class TransportController
@@ -64,8 +64,6 @@ class TransportController
     public function updateTransport($transport)
     {
         try {
-            echo "<h3>🚀 updateTransport appelée</h3>";
-    
             $db = config::getConnexion();
             $id = $transport->getIdDeTransport();
     
@@ -77,10 +75,6 @@ class TransportController
                 'marque' => $transport->getMarque(),
                 'kilometrage' => $transport->getKilometrage()
             ];
-    
-            echo "<h4>🛠️ Paramètres d'update :</h4><pre>";
-            print_r($params);
-            echo "</pre>";
     
             $query = $db->prepare(
                 'UPDATE transport SET 
@@ -95,15 +89,14 @@ class TransportController
             $query->execute($params);
     
             $rowCount = $query->rowCount();
-            echo "<h4>🔁 Lignes modifiées : $rowCount</h4>";
     
             return $rowCount > 0;
         } catch (PDOException $e) {
-            echo "<div class='error'>❌ Erreur PDO : " . $e->getMessage() . "</div>";
+            // Tu peux aussi supprimer ce echo pour ne rien afficher du tout :
+            // echo "<div class='error'>❌ Erreur PDO : " . $e->getMessage() . "</div>";
             return false;
         }
     }
-    
     
 
     function showTransport($id)
@@ -136,17 +129,14 @@ class TransportController
     public function getTransportById($id)
     {
         try {
-            echo "<pre>📦 ID reçu dans getTransportById: ";
-            var_dump($id);
-            echo "</pre>";
-    
+            // Debug supprimé
             $db = config::getConnexion();
             $query = $db->prepare("SELECT * FROM transport WHERE id_de_transport = :id");
             $query->execute(['id' => $id]);
             $data = $query->fetch();
     
             if ($data) {
-                echo "<div>✅ Transport trouvé</div>";
+                // Suppression du message "✅ Transport trouvé"
                 return new Transport(
                     $data['id_de_transport'],
                     $data['nom_bapteme'],
@@ -156,14 +146,53 @@ class TransportController
                     $data['kilometrage']
                 );
             } else {
-                echo "<div>❌ Aucun transport trouvé avec cet ID</div>";
+                // Suppression du message "❌ Aucun transport trouvé avec cet ID"
                 return null;
             }
         } catch (PDOException $e) {
-            echo "Erreur: " . $e->getMessage();
+            // Tu peux aussi supprimer ce echo si tu ne veux afficher aucune erreur
+            // echo "Erreur: " . $e->getMessage();
             return null;
         }
     }
+   public function showTransportWithMonuments($id = null)
+{
+    $db = config::getConnexion();
+    try {
+        // Requête pour obtenir les transports
+        $sql = "SELECT * FROM transport";
+        if ($id !== null) {
+            $sql .= " WHERE id_transport = :id"; // Si un ID est passé, on filtre
+        }
+
+        $query = $db->prepare($sql);
+        if ($id !== null) {
+            $query->bindParam(':id', $id, PDO::PARAM_INT);
+        }
+        $query->execute();
+        
+        $transports = $query->fetchAll();
+
+        // Récupérer les monuments associés à chaque transport
+        foreach ($transports as &$transport) {
+            $sqlMonuments = "SELECT * FROM transport_monument tm
+                             JOIN monument m ON tm.id_monument = m.id_monument
+                             WHERE tm.id_transport = :id_transport";
+
+            $stmt = $db->prepare($sqlMonuments);
+            $stmt->bindParam(':id_transport', $transport['id_transport'], PDO::PARAM_INT);
+            $stmt->execute();
+
+            $monuments = $stmt->fetchAll();
+            $transport['monuments'] = $monuments; // Ajouter les monuments associés au transport
+        }
+
+        return $transports; // Retourner la liste des transports avec leurs monuments associés
+    } catch (Exception $e) {
+        die('Error: ' . $e->getMessage());
+    }
+} 
     
 }
+
 ?>
