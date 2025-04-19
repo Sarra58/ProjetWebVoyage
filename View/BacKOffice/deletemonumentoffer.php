@@ -11,7 +11,7 @@ if (isset($_GET['id_monument']) && !empty($_GET['id_monument'])) {
     $monumentController->deleteMonument($id_monument);
 
     // Redirection après suppression
-    header('Location: MonumentOfferList.php');
+    header('Location:TransportOfferList.php');
     exit;  // Toujours appeler exit après une redirection
 } else {
     echo "❌ Aucun ID de monument valide trouvé dans l'URL.";

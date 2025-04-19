@@ -39,6 +39,7 @@ $transportMonuments = $monumentController->showAllMonuments();
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
+     
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
@@ -367,10 +368,10 @@ margin-left: 20px;
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
               </a>
-              <div class="collapse" id="ui-basic">
+              <div class="collapse show" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="/gestion_transport/View/BacKOffice/TransportOfferList.php">gestion de transport</a>
+                    <a class="nav-link" style="color: purple;" href="/gestion_transport/View/BacKOffice/TransportOfferList.php">gestion de transport</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="pages/ui-features/index.html">gestion de voyage </a>
@@ -522,6 +523,6 @@ margin-left: 20px;
             alert('Vous avez cliqué sur un bouton motivant !');
         });
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
